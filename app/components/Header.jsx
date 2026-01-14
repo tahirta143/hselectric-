@@ -17,15 +17,15 @@ export default function Header() {
   ];
 
   return (
-    <header className="w-full py-0 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto bg-white rounded-2xl px-6 py-2 mt-10 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 relative">
+    <header className="fixed z-1000 w-full px-4 ">
+      <div className="max-w-7xl mx-auto bg-white rounded-2xl px-2 py-0 shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 relative">
         {/* Yellow shadow effect around navbar */}
         <div className="absolute inset-0 rounded-2xl border-2 border-yellow-400/20 pointer-events-none"></div>
 
         {/* Top Row */}
         <div className="flex items-center justify-between relative z-10">
           {/* Search */}
-          <div className="relative w-[280px] group">
+          <div className="relative w-[280px] group left-5">
             <Search
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-300 group-hover:text-yellow-500"
@@ -49,23 +49,29 @@ export default function Header() {
           </div>
 
           {/* Right Links */}
-          <div className="flex items-center gap-6">
-            <Link
-              href="/about"
-              className="text-gray-700 hover:text-yellow-600 transition-all duration-300 relative group"
-            >
-              About Us
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span>
-            </Link>
+          <div className="flex items-center gap-2">
+            <div className="relative group">
+              <Link
+                href="/about"
+                className="nav-link text-gray-700 hover:text-yellow-600 transition-colors duration-300 relative px-2 py-1"
+              >
+                About Us
+              </Link>
+              {/* Yellow background on hover */}
+              <div className="absolute inset-0 bg-yellow-100 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-0"></div>
+            </div>
 
             {/* Products link - Simple version in top row */}
-            <Link
-              href="/products"
-              className="text-gray-700 hover:text-yellow-600 transition-all duration-300 relative group"
-            >
-              Products
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span>
-            </Link>
+            <div className="relative group">
+              <Link
+                href="/products"
+                className="nav-link text-gray-700 hover:text-yellow-600 transition-colors duration-300 relative px-2 py-1"
+              >
+                Products
+              </Link>
+              {/* Yellow background on hover */}
+              <div className="absolute inset-0 bg-yellow-100 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-0"></div>
+            </div>
 
             {/* Cart */}
             <div className="relative cursor-pointer group">
@@ -83,22 +89,25 @@ export default function Header() {
         </div>
 
         {/* Bottom Links with dropdown */}
-        <div className="flex justify-center gap-8 mt-4 pt-4 border-t border-gray-100 relative z-10">
-          <Link
-            href="/"
-            className="text-gray-600 hover:text-yellow-600 transition-all duration-300 relative group"
-          >
-            Home
-            <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span>
-          </Link>
+        <div className="left-10 flex justify-center gap-8 relative z-10 py-0.5">
+          <div className="relative group">
+            <Link
+              href="/"
+              className="nav-link text-gray-600 hover:text-yellow-600 transition-colors duration-300 relative px-2 py-0"
+            >
+              Home
+            </Link>
+            {/* Yellow background on hover */}
+            <div className="absolute h-6 inset-0 bg-yellow-100 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-0"></div>
+          </div>
 
           {/* Products with dropdown - Now in bottom links */}
           <div
-            className="relative"
+            className="relative group"
             onMouseEnter={() => setIsProductsHover(true)}
             onMouseLeave={() => setIsProductsHover(false)}
           >
-            <button className="flex items-center gap-1 text-gray-600 hover:text-yellow-600 transition-all duration-300 group">
+            <button className="flex items-center h-6 gap-1 text-gray-600 hover:text-yellow-600 transition-colors duration-300 relative px-2 py-0.6 nav-link">
               <span>Products</span>
               <ChevronDown
                 size={16}
@@ -106,8 +115,10 @@ export default function Header() {
                   isProductsHover ? "rotate-180 text-yellow-500" : ""
                 }`}
               />
-              <span className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-yellow-500 group-hover:w-full transition-all duration-300"></span>
             </button>
+            
+            {/* Yellow background on hover */}
+            <div className="absolute inset-0 bg-yellow-100 rounded-lg transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-0"></div>
 
             {/* Dropdown Menu - Positioned BELOW the bottom links */}
             {isProductsHover && (
@@ -159,8 +170,50 @@ export default function Header() {
             transform: translateY(0);
           }
         }
+        
+        @keyframes slideInLeft {
+          from {
+            transform: scaleX(0);
+            transform-origin: left;
+          }
+          to {
+            transform: scaleX(1);
+            transform-origin: left;
+          }
+        }
+        
         .animate-fadeIn {
           animation: fadeIn 0.2s ease-out;
+        }
+        
+        /* Smooth underline animation */
+        .nav-link {
+          position: relative;
+          display: inline-block;
+          z-index: 10;
+        }
+        
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background: linear-gradient(90deg, #f59e0b, #fbbf24);
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+          z-index: 10;
+        }
+        
+        .nav-link:hover::after {
+          transform: scaleX(1);
+        }
+        
+        /* Yellow background animation */
+        .group:hover .bg-yellow-100 {
+          animation: slideInLeft 0.3s ease-out forwards;
         }
       `}</style>
     </header>
